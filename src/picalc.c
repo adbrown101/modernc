@@ -1,25 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <string.h>
 
-double picalc(int N) {
+double rndpi(double pi, size_t N) {
+	size_t mult = pow(10, N);
+	return round(pi * mult)/mult;
+}
+
+double picalc(size_t N) {
 	double pi = 3.0;
 	double oldpi = 2.0;
-	N += 3;
-	printf("pistr length = %d\n", N);
 	size_t i = 1;
-	char pistr[N];
-	char oldpistr[N];
 	for(;;) {
-		sprintf(pistr, "%f", pi);
-		sprintf(oldpistr, "%f", oldpi);
-		if(strcmp(pistr, oldpistr) == 0) {
+		if (rndpi(pi, N) == rndpi(oldpi, N)) {
 			break;
 		}
-		int j = i * 2;
-		int k = j + 1;
-		int l = k + 1;
+		size_t j = i * 2;
+		size_t k = j + 1;
+		size_t l = k + 1;
 		oldpi = pi;
 		double frac = (double)(4.0 / (j * k * l));
 		if (i % 2 == 0) {
@@ -30,17 +28,14 @@ double picalc(int N) {
 		}
 		++i;
 	}
-	printf("%s = %s\n", pistr, oldpistr);
-	printf("The number of loops is %d\n", i);
+	printf("No of loops %zu\n", i);
 	return pi;
 }
 
-int main(int argc, char *argv[argc + 1]) {
-	if (argc == 2) {
-		int N = atoi(argv[1]);
-		printf("number of places = %d\n", N);
-		double pi = picalc(N);
-		printf("pi = %.*f\n", N, pi);
-	}
+int main(void) {
+	size_t N = 10;
+	printf("number of places = %zu\n", N);
+	double pi = picalc(N);
+	printf("pi = %.10f\n", pi);
 	return EXIT_SUCCESS;
 }
