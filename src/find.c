@@ -36,16 +36,12 @@ void FindReplace(size_t N, size_t parent[static N], size_t i, size_t rep) {
 
 size_t FindCompress(size_t N, size_t parent[static N], size_t i) {
 	size_t iroot = Find(N, parent, i);
-	if (i != iroot) {
-		size_t prev_parent = parent[i];
-		parent[i] = iroot;
-		i = FindCompress(N, parent, prev_parent);
-	}
-	return i;
+	FindReplace(N, parent, i, iroot);
+	parent[iroot] = SIZE_MAX;
+	return iroot;
 }
 
 void Union (size_t N, size_t parent[static N], size_t i, size_t j) {
-	FindCompress(N, parent, i);
 	FindReplace(N, parent, i, FindCompress(N, parent, j));
 }
 
@@ -59,7 +55,7 @@ int main(void) {
 	FindReplace(TABLESIZE, parent, 5, 4);
 	FindReplace(TABLESIZE, parent, 3, 5);
 	/* FindCompress(TABLESIZE, parent, 3); */
-	Union(TABLESIZE, parent, 3, 7);
+	Union(TABLESIZE, parent, 7, 4);
 	printset(TABLESIZE, parent);
 	return EXIT_SUCCESS;
 }
