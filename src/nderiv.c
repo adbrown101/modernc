@@ -1,18 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
-
-double nderiv(double (*f)(double), double x) {
-	static double const dx = 0x1P-24;
-	double deriv = (f(x + dx) - f(x - dx))/(2 * dx);
-	return deriv;
-}
-
-double sqr(double x) {
-	return pow(x, 2);
-}
+#include <tgmath.h>
 
 int main(void) {
-	double deriv = nderiv(sqrt, 4.0);
-	printf("Deriv is %.2f\n", deriv);
+	static double complex const dx = 0x1P-24;
+	static double complex const x = -4.0;
+	double complex deriv = (sqrt(x + dx) - sqrt(x - dx))/(2*dx);
+	printf("Deriv is %f%+fi\n", creal(deriv), cimag(deriv));
 }
